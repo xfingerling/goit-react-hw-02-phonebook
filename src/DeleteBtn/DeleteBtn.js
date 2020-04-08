@@ -3,13 +3,9 @@ import PropTypes from "prop-types";
 
 import styles from "./DeleteBtn.module.css";
 
-const DeleteBtn = ({ id, onDelete }) => {
-  function handleClick() {
-    onDelete(id);
-  }
-
+const DeleteBtn = ({ onDelete }) => {
   return (
-    <button className={styles.btn} onClick={handleClick}>
+    <button className={styles.btn} onClick={onDelete}>
       Delete
     </button>
   );

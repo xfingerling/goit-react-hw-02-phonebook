@@ -10,14 +10,25 @@ import Filter from "../Filter/Filter";
 
 export default class Phonebook extends Component {
   state = {
-    contacts: [
-      { id: uniqid(), name: "Hermione Kline", number: "443-89-12" },
-      { id: uniqid(), name: "Eden Clements", number: "645-17-79" },
-      { id: uniqid(), name: "Rosie Simpson", number: "459-12-56" },
-      { id: uniqid(), name: "Annie Copeland", number: "227-91-26" },
-    ],
+    contacts: [],
     filter: "",
   };
+
+  componentDidMount() {
+    const contactsLS = localStorage.getItem("contacts");
+
+    if (contactsLS) {
+      const contacts = JSON.parse(contactsLS);
+
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
 
   isUnique = ({ name }) => {
     return !this.state.contacts.some((el) => el.name === name);
@@ -25,31 +36,33 @@ export default class Phonebook extends Component {
 
   handleSubmit = (contact) => {
     if (this.isUnique(contact)) {
+      const newContact = { id: uniqid(), ...contact };
+
       this.setState((state) => ({
-        contacts: [...state.contacts, { id: uniqid(), ...contact }],
+        contacts: [...state.contacts, newContact],
       }));
     } else {
       alert(`${contact.name} is already in contacts.`);
     }
   };
 
-  handleFilter = (value) => {
-    this.setState({ filter: value });
+  handleFilter = (e) => {
+    this.setState({ filter: e.target.value });
   };
 
   handleDelete = (id) => {
-    const filterContacts = this.state.contacts.filter((el) => el.id !== id);
-
-    this.setState({ contacts: filterContacts });
+    this.setState((state) => ({
+      contacts: state.contacts.filter((el) => el.id !== id),
+    }));
   };
 
-  filterContactsByName = () =>
-    this.state.contacts.filter((el) =>
-      el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
+  filterContactsByName = (contacts, filter) =>
+    contacts.filter((el) =>
+      el.name.toLowerCase().includes(filter.toLowerCase()),
     );
 
-  sortContactsAlphabetically = () => {
-    const sortedArr = [...this.state.contacts];
+  sortContactsAlphabetically = (contacts) => {
+    const sortedArr = [...contacts];
 
     return sortedArr.sort((a, b) => {
       if (a.name < b.name) return -1;
@@ -59,21 +72,21 @@ export default class Phonebook extends Component {
   };
 
   render() {
+    const { contacts, filter } = this.state;
+    const filtredContacts = this.filterContactsByName(contacts, filter);
+    const sortedContacts = this.sortContactsAlphabetically(contacts);
+
     return (
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Phonebook</h1>
         <ContactForm onAddContact={this.handleSubmit} />
 
         <h2 className={styles.titleContacts}>Contacts</h2>
-        {this.state.contacts.length >= 2 && (
-          <Filter onFilter={this.handleFilter} value={this.state.filter} />
+        {contacts.length >= 2 && (
+          <Filter onFilter={this.handleFilter} value={filter} />
         )}
         <ContactList
-          contacts={
-            this.state.filter.length
-              ? this.filterContactsByName()
-              : this.sortContactsAlphabetically()
-          }
+          contacts={filter.length ? filtredContacts : sortedContacts}
           onDelete={this.handleDelete}
         />
       </div>

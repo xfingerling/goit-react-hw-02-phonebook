@@ -12,8 +12,7 @@ const ContactList = ({ contacts, onDelete }) => {
         key={id}
         name={name}
         number={number}
-        id={id}
-        onDelete={onDelete}
+        onDelete={() => onDelete(id)}
       />
     );
   });

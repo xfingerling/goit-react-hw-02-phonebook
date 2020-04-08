@@ -5,12 +5,12 @@ import styles from "./ContactListItem.module.css";
 
 import DeleteBtn from "../DeleteBtn/DeleteBtn";
 
-const ContactListItem = ({ id, name, number, onDelete }) => {
+const ContactListItem = ({ name, number, onDelete }) => {
   return (
     <>
       <li className={styles.listItem}>
         {name}: {number}
-        <DeleteBtn id={id} onDelete={onDelete} />
+        <DeleteBtn onDelete={onDelete} />
       </li>
     </>
   );
