@@ -11,9 +11,9 @@ import Filter from "../Filter/Filter";
 export default class Phonebook extends Component {
   state = {
     contacts: [
-      { id: uniqid(), name: "Rosie Simpson", number: "459-12-56" },
       { id: uniqid(), name: "Hermione Kline", number: "443-89-12" },
       { id: uniqid(), name: "Eden Clements", number: "645-17-79" },
+      { id: uniqid(), name: "Rosie Simpson", number: "459-12-56" },
       { id: uniqid(), name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: "",
@@ -26,7 +26,7 @@ export default class Phonebook extends Component {
   handleSubmit = (contact) => {
     if (this.isUnique(contact)) {
       this.setState((state) => ({
-        contacts: [...state.contacts, { ...contact, id: uniqid() }],
+        contacts: [...state.contacts, { id: uniqid(), ...contact }],
       }));
     } else {
       alert(`${contact.name} is already in contacts.`);
@@ -43,10 +43,19 @@ export default class Phonebook extends Component {
     this.setState({ contacts: filterContacts });
   };
 
-  filterContactsByName = () => {
-    return this.state.contacts.filter((el) =>
+  filterContactsByName = () =>
+    this.state.contacts.filter((el) =>
       el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
     );
+
+  sortContactsAlphabetically = () => {
+    const sortedArr = [...this.state.contacts];
+
+    return sortedArr.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name < b.name) return 1;
+      return 0;
+    });
   };
 
   render() {
@@ -63,7 +72,7 @@ export default class Phonebook extends Component {
           contacts={
             this.state.filter.length
               ? this.filterContactsByName()
-              : this.state.contacts
+              : this.sortContactsAlphabetically()
           }
           onDelete={this.handleDelete}
         />
