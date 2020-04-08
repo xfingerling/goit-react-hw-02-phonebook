@@ -1,0 +1,7 @@
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Trebuchet MS", "Lucida Sans";
+  border-bottom: 1px solid #efefef;
+  padding: 10px 0;
+}
