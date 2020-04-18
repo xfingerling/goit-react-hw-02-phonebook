@@ -25,17 +25,19 @@ export default class Phonebook extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    const { contacts } = this.state;
+
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
     }
   }
 
-  isUnique = ({ name }) => {
+  isUniqueName = ({ name }) => {
     return !this.state.contacts.some((el) => el.name === name);
   };
 
   handleSubmit = (contact) => {
-    if (this.isUnique(contact)) {
+    if (this.isUniqueName(contact)) {
       const newContact = { id: uniqid(), ...contact };
 
       this.setState((state) => ({

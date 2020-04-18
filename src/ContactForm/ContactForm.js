@@ -23,7 +23,6 @@ export default class ContactForm extends Component {
   handleChange = (e) => {
     const name = e.target.name;
     let value = e.target.value;
-    value = value.charAt(0).toUpperCase() + value.slice(1);
 
     this.setState({ [name]: value });
   };
