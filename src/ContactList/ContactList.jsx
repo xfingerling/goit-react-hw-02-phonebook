@@ -5,7 +5,7 @@ import styles from "./ContactList.module.css";
 
 import ContactListItem from "../ContactListItem/ContactListItem";
 
-const ContactList = ({ contacts, onDelete }) => {
+const ContactList = ({ contacts = [], onDelete }) => {
   const listItems = contacts.map(({ id, name, number }) => {
     return (
       <ContactListItem
@@ -20,16 +20,12 @@ const ContactList = ({ contacts, onDelete }) => {
   return <ul className={styles.list}>{listItems}</ul>;
 };
 
-ContactList.defaultProps = {
-  contacts: [],
-};
-
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      number: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
     }),
   ),
   onDelete: PropTypes.func,

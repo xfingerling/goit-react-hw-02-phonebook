@@ -5,16 +5,12 @@ import styles from "./ContactListItem.module.css";
 
 import DeleteBtn from "../DeleteBtn/DeleteBtn";
 
-const ContactListItem = ({ name, number, onDelete }) => {
-  return (
-    <>
-      <li className={styles.listItem}>
-        {name}: {number}
-        <DeleteBtn onDelete={onDelete} />
-      </li>
-    </>
-  );
-};
+const ContactListItem = ({ name, number, onDelete }) => (
+  <li className={styles.listItem}>
+    {name}: {number}
+    <DeleteBtn onDelete={onDelete} />
+  </li>
+);
 
 ContactListItem.propTypes = {
   id: PropTypes.string,
