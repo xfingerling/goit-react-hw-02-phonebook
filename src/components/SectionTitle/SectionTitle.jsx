@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 
 import style from "./SectionTitle.module.css";
-import logoTransition from "../../transitions/logoTransition.module.css";
+import popTransition from "../../transitions/popTransition.module.css";
 
 class SectionTitle extends Component {
   state = {
@@ -25,7 +25,7 @@ class SectionTitle extends Component {
           <CSSTransition
             in={isLogoShow}
             timeout={500}
-            classNames={logoTransition}
+            classNames={popTransition}
           >
             <h2 className={style.title}>{title}</h2>
           </CSSTransition>
