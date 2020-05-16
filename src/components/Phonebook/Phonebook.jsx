@@ -68,10 +68,13 @@ export default class Phonebook extends Component {
     }));
   };
 
-  filterContactsByName = (contacts, filter) =>
-    contacts.filter((el) =>
+  filterContactsByName = (contacts, filter) => {
+    const filtred = contacts.filter((el) =>
       el.name.toLowerCase().includes(filter.toLowerCase()),
     );
+
+    return this.sortContactsAlphabetically(filtred);
+  };
 
   sortContactsAlphabetically = (contacts) => {
     const sortedArr = [...contacts];
@@ -87,7 +90,7 @@ export default class Phonebook extends Component {
     const { contacts, filter, isAlertShow } = this.state;
     const filtredContacts = this.filterContactsByName(contacts, filter);
     const sortedContacts = this.sortContactsAlphabetically(contacts);
-    console.log(contacts);
+
     return (
       <div>
         <SectionTitle title={"Phonebook"} isLogo />
