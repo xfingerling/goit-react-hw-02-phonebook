@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 
 import style from "./Notification.module.css";
-import slideTransition from "../../transitions/slideTransition.module.css";
+import popTransition from "../../transitions/popTransition.module.css";
 
 const Notification = ({ text, isShow }) => (
   <CSSTransition
     in={isShow}
     timeout={250}
-    classNames={slideTransition}
+    classNames={popTransition}
     unmountOnExit
   >
     <div className={style.alert}>
