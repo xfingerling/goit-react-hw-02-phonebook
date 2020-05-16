@@ -3,7 +3,7 @@ import { render } from "react-dom";
 
 import "./index.css";
 
-import Phonebook from "./Phonebook/Phonebook";
+import Phonebook from "./components/Phonebook/Phonebook";
 
 class App extends Component {
   render() {

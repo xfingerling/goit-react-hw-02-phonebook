@@ -1,0 +1,11 @@
+.enter {
+  opacity: 0;
+  transform: translateX(-100%) rotate(-360deg);
+}
+
+.enterActive {
+  opacity: 1;
+  transform: translateX(0) rotate(0deg);
+
+  transition: all 500ms linear;
+}

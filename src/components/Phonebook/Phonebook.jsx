@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 import uniqid from "uniqid";
 
-import styles from "./Phonebook.module.css";
-
+import SectionTitle from "../SectionTitle/SectionTitle";
 import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import Filter from "../Filter/Filter";
+import Notification from "../Notification/Notification";
 
 export default class Phonebook extends Component {
   state = {
@@ -17,6 +17,7 @@ export default class Phonebook extends Component {
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: "",
+    isAlertShow: false,
   };
 
   componentDidMount() {
@@ -49,7 +50,11 @@ export default class Phonebook extends Component {
         contacts: [...state.contacts, newContact],
       }));
     } else {
-      alert(`${contact.name} is already in contacts.`);
+      this.setState((state) => ({ isAlertShow: !state.isAlertShow }));
+
+      setTimeout(() => {
+        this.setState((state) => ({ isAlertShow: !state.isAlertShow }));
+      }, 3000);
     }
   };
 
@@ -79,23 +84,30 @@ export default class Phonebook extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
+    const { contacts, filter, isAlertShow } = this.state;
     const filtredContacts = this.filterContactsByName(contacts, filter);
     const sortedContacts = this.sortContactsAlphabetically(contacts);
-
+    console.log(contacts);
     return (
-      <div className={styles.wrapper}>
-        <h1 className={styles.title}>Phonebook</h1>
+      <div>
+        <SectionTitle title={"Phonebook"} isLogo />
+
         <ContactForm onAddContact={this.handleSubmit} />
 
-        <h2 className={styles.titleContacts}>Contacts</h2>
-        {contacts.length >= 2 && (
-          <Filter onFilter={this.handleFilter} value={filter} />
-        )}
+        <SectionTitle title={"Contacts"} />
+
+        <Filter
+          onFilter={this.handleFilter}
+          value={filter}
+          isShow={contacts.length >= 2}
+        />
+
         <ContactList
           contacts={filter.length ? filtredContacts : sortedContacts}
           onDelete={this.handleDelete}
         />
+
+        <Notification isShow={isAlertShow} text="Contact is already exist" />
       </div>
     );
   }
