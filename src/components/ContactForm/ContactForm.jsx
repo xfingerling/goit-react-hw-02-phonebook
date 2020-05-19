@@ -45,7 +45,7 @@ export default class ContactForm extends Component {
         <input
           className={styles.input}
           name="number"
-          type="text"
+          type="number"
           value={number}
           onChange={this.handleChange}
           placeholder="Number"

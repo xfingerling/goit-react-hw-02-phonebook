@@ -19,6 +19,13 @@
   height: 45px;
 }
 
+.input {
+  -moz-appearance: textfield;
+}
+.input::-webkit-inner-spin-button {
+  display: none;
+}
+
 .btn {
   background-color: #2cbbbb;
   border: 1px solid #27a0a0;

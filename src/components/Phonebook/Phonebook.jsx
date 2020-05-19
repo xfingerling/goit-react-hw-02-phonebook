@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 import uniqid from "uniqid";
 
-import SectionTitle from "../SectionTitle/SectionTitle";
+import style from "./Phonebook.module.css";
+
 import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import Filter from "../Filter/Filter";
-import Notification from "../Notification/Notification";
 
 export default class Phonebook extends Component {
   state = {
@@ -17,26 +17,7 @@ export default class Phonebook extends Component {
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: "",
-    isAlertShow: false,
   };
-
-  componentDidMount() {
-    const contactsLS = localStorage.getItem("contacts");
-
-    if (contactsLS) {
-      const contacts = JSON.parse(contactsLS);
-
-      this.setState({ contacts });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { contacts } = this.state;
-
-    if (prevState.contacts !== contacts) {
-      localStorage.setItem("contacts", JSON.stringify(contacts));
-    }
-  }
 
   isUniqueName = ({ name }) => {
     return !this.state.contacts.some((el) => el.name === name);
@@ -50,11 +31,7 @@ export default class Phonebook extends Component {
         contacts: [...state.contacts, newContact],
       }));
     } else {
-      this.setState((state) => ({ isAlertShow: !state.isAlertShow }));
-
-      setTimeout(() => {
-        this.setState((state) => ({ isAlertShow: !state.isAlertShow }));
-      }, 3000);
+      alert(`${contact.name} is already exist`);
     }
   };
 
@@ -87,17 +64,17 @@ export default class Phonebook extends Component {
   };
 
   render() {
-    const { contacts, filter, isAlertShow } = this.state;
+    const { contacts, filter } = this.state;
     const filtredContacts = this.filterContactsByName(contacts, filter);
     const sortedContacts = this.sortContactsAlphabetically(contacts);
 
     return (
       <div>
-        <SectionTitle title={"Phonebook"} isLogo />
+        <h2 className={style.title}>Phonebook</h2>
 
         <ContactForm onAddContact={this.handleSubmit} />
 
-        <SectionTitle title={"Contacts"} />
+        <h2 className={style.title}>Contacts</h2>
 
         <Filter
           onFilter={this.handleFilter}
@@ -109,8 +86,6 @@ export default class Phonebook extends Component {
           contacts={filter.length ? filtredContacts : sortedContacts}
           onDelete={this.handleDelete}
         />
-
-        <Notification isShow={isAlertShow} text="Contact is already exist" />
       </div>
     );
   }

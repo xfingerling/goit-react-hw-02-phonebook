@@ -1,35 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import styles from "./ContactList.module.css";
-import popTransition from "../../transitions/popTransition.module.css";
 
 import ContactListItem from "./ContactListItem/ContactListItem";
 
 const ContactList = ({ contacts = [], onDelete }) => {
   const listItems = contacts.map(({ id, name, number }) => {
     return (
-      <CSSTransition
+      <ContactListItem
         key={id}
-        timeout={250}
-        classNames={popTransition}
-        unmountOnExit
-      >
-        <ContactListItem
-          name={name}
-          number={number}
-          onDelete={() => onDelete(id)}
-        />
-      </CSSTransition>
+        name={name}
+        number={number}
+        onDelete={() => onDelete(id)}
+      />
     );
   });
 
-  return (
-    <TransitionGroup component="ul" className={styles.list}>
-      {listItems}
-    </TransitionGroup>
-  );
+  return <ul className={styles.list}>{listItems}</ul>;
 };
 
 ContactList.propTypes = {
