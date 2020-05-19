@@ -76,11 +76,9 @@ export default class Phonebook extends Component {
 
         <h2 className={style.title}>Contacts</h2>
 
-        <Filter
-          onFilter={this.handleFilter}
-          value={filter}
-          isShow={contacts.length >= 2}
-        />
+        {contacts.length >= 2 && (
+          <Filter onFilter={this.handleFilter} value={filter} />
+        )}
 
         <ContactList
           contacts={filter.length ? filtredContacts : sortedContacts}
